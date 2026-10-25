@@ -25,7 +25,7 @@ func parseArguments(_ arguments: [String]) -> CLIOptions {
         exit(ExitCode.success.rawValue)
     }
     if arguments.contains("-V") || arguments.contains("--version") {
-        print("DeviceAudioSR \(cliVersion)")
+        print("deviceaudiosr \(cliVersion)")
         exit(ExitCode.success.rawValue)
     }
 

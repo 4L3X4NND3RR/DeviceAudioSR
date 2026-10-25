@@ -5,9 +5,9 @@
 //  CLI to change (and inspect) the nominal sample rate of a CoreAudio device.
 //
 //  Usage:
-//    DeviceAudioSR <rate> [-d <name|uid>] [-i] [--verbose]
-//    DeviceAudioSR --list
-//    DeviceAudioSR --help | --version
+//    deviceaudiosr <rate> [-d <name|uid>] [-i] [--verbose]
+//    deviceaudiosr --list
+//    deviceaudiosr --help | --version
 //
 //  Results are JSON: success on stdout, errors (and debug logs) on stderr.
 //

@@ -7,20 +7,20 @@ let cliVersion = "1.0.0"
 
 func printUsage() {
     print("""
-    DeviceAudioSR \(cliVersion)
+    deviceaudiosr \(cliVersion)
 
     Change the nominal sample rate of a macOS audio device (CoreAudio).
 
     USAGE
-      DeviceAudioSR <rate> [-d <name|uid>] [-i]
-      DeviceAudioSR --list
-      DeviceAudioSR --help | --version
+      deviceaudiosr <rate> [-d <name|uid>] [-i]
+      deviceaudiosr --list
+      deviceaudiosr --help | --version
 
     EXAMPLES
-      DeviceAudioSR 48000
-      DeviceAudioSR "48,000Hz 2ch 32-bit" -d "MacBook Pro Speakers"
-      DeviceAudioSR 96k -d BuiltInHeadphoneOutputDevice
-      DeviceAudioSR --list | jq .
+      deviceaudiosr 48000
+      deviceaudiosr "48,000Hz 2ch 32-bit" -d "MacBook Pro Speakers"
+      deviceaudiosr 96k -d BuiltInHeadphoneOutputDevice
+      deviceaudiosr --list | jq .
 
     OPTIONS
       <rate>            Sample rate: 48000, 48,000, 44.1k, or "48,000Hz 2ch 32-bit"

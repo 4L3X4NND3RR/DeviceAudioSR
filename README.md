@@ -2,9 +2,10 @@
 
 A macOS command-line tool to change (and inspect) the nominal sample rate of
 any CoreAudio audio device. Results are emitted as machine-readable JSON.
+The installed executable is `deviceaudiosr` (lower-case, Homebrew-friendly).
 
 ```console
-$ DeviceAudioSR 48000 -d "MacBook Pro Speakers"
+$ deviceaudiosr 48000 -d "MacBook Pro Speakers"
 {
   "ok" : true,
   "device" : { "name" : "MacBook Pro Speakers", "uid" : "BuiltInSpeakerDevice" },
@@ -16,13 +17,22 @@ $ DeviceAudioSR 48000 -d "MacBook Pro Speakers"
 }
 ```
 
+## Install (Homebrew)
+
+```console
+$ brew install 4L3X4NND3RR/tap/deviceaudiosr
+```
+
+Requires macOS 15.6 or newer. The tap ships prebuilt bottles for Apple
+Silicon; on Intel, install with `--build-from-source` (needs Xcode 16+).
+
 ## CLI contract (stable — do not break casually)
 
 | Invocation | Effect |
 |---|---|
-| `DeviceAudioSR <rate> [-d <name\|uid>] [-i]` | Set nominal sample rate |
-| `DeviceAudioSR --list` | All devices: uid, per-scope format, supported rates |
-| `DeviceAudioSR --help` / `--version` | Help / version, plain text, exit 0 |
+| `deviceaudiosr <rate> [-d <name\|uid>] [-i]` | Set nominal sample rate |
+| `deviceaudiosr --list` | All devices: uid, per-scope format, supported rates |
+| `deviceaudiosr --help` / `--version` | Help / version, plain text, exit 0 |
 
 - **Rate syntax:** `48000`, `48,000`, `48 000`, `48k`, `44.1k`, or a full spec
   string like `"48,000Hz 2ch 32-bit"` (only the rate is applied; `ch`/`bit`
@@ -78,9 +88,9 @@ still Swift 5 — the code compiles warning-free in both.
 ### Swift Package Manager
 
 ```console
-$ swift run DeviceAudioSR --list                    # debug
-$ swift run -c release DeviceAudioSR 48000          # release
-# built binary: .build/debug/DeviceAudioSR | .build/release/DeviceAudioSR
+$ swift run deviceaudiosr --list                    # debug
+$ swift run -c release deviceaudiosr 48000          # release
+# built binary: .build/debug/deviceaudiosr | .build/release/deviceaudiosr
 ```
 
 ### Xcode
@@ -90,13 +100,13 @@ Requires Xcode on macOS (deployment target 15.6, Swift 5).
 ```console
 $ xcodebuild -project DeviceAudioSR.xcodeproj -scheme DeviceAudioSR -configuration Debug build
 # binary lands in:
-#   ~/Library/Developer/Xcode/DerivedData/DeviceAudioSR-*/Build/Products/Debug/DeviceAudioSR
+#   ~/Library/Developer/Xcode/DerivedData/DeviceAudioSR-*/Build/Products/Debug/deviceaudiosr
 ```
 
 ### Bare swiftc (no manifest)
 
 ```console
-$ xcrun swiftc -O -o DeviceAudioSR \
+$ xcrun swiftc -O -o deviceaudiosr \
     DeviceAudioSR/main.swift DeviceAudioSR/{Domain,Application,Infrastructure,Presentation}/*.swift
 ```
 

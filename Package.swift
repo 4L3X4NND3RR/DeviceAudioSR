@@ -12,7 +12,10 @@ let package = Package(
         // main.swift + Domain/ Application/ Infrastructure/ Presentation/.
         // SwiftPM includes all .swift files under the path recursively.
         .executableTarget(
-            name: "DeviceAudioSR",
+            // Lower-case product name to match the Homebrew formula's
+            // install name: `brew install .../deviceaudiosr` puts exactly
+            // this binary on PATH.
+            name: "deviceaudiosr",
             path: "DeviceAudioSR"
         ),
     ]
