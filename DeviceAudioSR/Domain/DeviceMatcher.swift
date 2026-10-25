@@ -25,6 +25,10 @@ enum DeviceMatcher {
         if exactName.count == 1 { return .found(exactName[0]) }
         if exactName.count > 1 { return .ambiguous(exactName) }
 
+        if let id = UInt32(query), let device = devices.first(where: { $0.id == id }) {
+            return .found(device)
+        }
+
         let partial = devices.filter { $0.name.lowercased().contains(lowered) }
         if partial.count == 1 { return .found(partial[0]) }
         if partial.count > 1 { return .ambiguous(partial) }

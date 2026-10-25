@@ -3,7 +3,7 @@
 //  DeviceAudioSR — Presentation
 //
 
-let cliVersion = "1.0.0"
+let cliVersion = "1.1.0"
 
 func printUsage() {
     print("""
@@ -12,7 +12,8 @@ func printUsage() {
     Change the nominal sample rate of a macOS audio device (CoreAudio).
 
     USAGE
-      deviceaudiosr <rate> [-d <name|uid>] [-i]
+      deviceaudiosr <rate> [-d <name|uid|id>] [-i]
+      deviceaudiosr --output <name|uid|id>
       deviceaudiosr --list
       deviceaudiosr --help | --version
 
@@ -25,9 +26,10 @@ func printUsage() {
     OPTIONS
       <rate>            Sample rate: 48000, 48,000, 44.1k, or "48,000Hz 2ch 32-bit"
                         (only the rate is applied; trailing ch/bit tokens are ignored)
-      -d, --device      Device name or UID (case-insensitive exact match, then
-                        substring). Defaults to the current default output device
-                        (default input with -i).
+      -d, --device      Device name, UID, or numeric CoreAudio id (case-insensitive exact match, then
+                         substring). Defaults to the current default output device
+                         (default input with -i).
+      --output          Set the system default output device by name, UID, or numeric id.
       -i, --input       Target the input scope of the device.
       -l, --list        List all devices: uid, current format, supported rates.
       -v, --verbose     Log execution steps to stderr (or set DEBUG=1).

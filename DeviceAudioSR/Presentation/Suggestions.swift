@@ -6,7 +6,7 @@
 //  live in the domain (DeviceMatcher).
 //
 
-let knownFlags = ["--device", "--list", "--input", "--verbose", "--version", "--help"]
+let knownFlags = ["--device", "--output", "--list", "--input", "--verbose", "--version", "--help"]
 
 /// Close matches for a mistyped flag, e.g. "-devce" → "--device".
 func suggestFlags(for arg: String) -> [String] {

@@ -30,15 +30,17 @@ Silicon; on Intel, install with `--build-from-source` (needs Xcode 16+).
 
 | Invocation | Effect |
 |---|---|
-| `deviceaudiosr <rate> [-d <name\|uid>] [-i]` | Set nominal sample rate |
+| `deviceaudiosr <rate> [-d <name\|uid\|id>] [-i]` | Set nominal sample rate |
+| `deviceaudiosr --output <name\|uid\|id>` | Set the system default output device |
 | `deviceaudiosr --list` | All devices: uid, per-scope format, supported rates |
 | `deviceaudiosr --help` / `--version` | Help / version, plain text, exit 0 |
 
 - **Rate syntax:** `48000`, `48,000`, `48 000`, `48k`, `44.1k`, or a full spec
   string like `"48,000Hz 2ch 32-bit"` (only the rate is applied; `ch`/`bit`
   tokens are accepted and ignored because they are not settable properties).
-- **Device resolution (`-d`):** case-insensitive exact UID match, then exact
-  name, then name substring. Ambiguity and misses fail with candidates and
+- **Device resolution (`-d`, `--output`):** case-insensitive exact UID match,
+  then exact name, then numeric CoreAudio device ID, then name substring.
+  Ambiguity and misses fail with candidates and
   edit-distance suggestions. No `-d` = default output device (default input
   with `-i`).
 - **Streams:** success JSON → `stdout`; error JSON and `-v` debug lines →

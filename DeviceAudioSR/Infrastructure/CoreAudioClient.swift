@@ -94,6 +94,16 @@ enum CoreAudioClient {
                     address: addr(kAudioHardwarePropertyDefaultInputDevice))
     }
 
+    @discardableResult
+    static func setDefaultOutputDeviceID(_ id: AudioDeviceID) -> OSStatus {
+        var address = addr(kAudioHardwarePropertyDefaultOutputDevice)
+        var value = id
+        return withUnsafeMutablePointer(to: &value) { ptr in
+            AudioObjectSetPropertyData(AudioObjectID(kAudioObjectSystemObject), &address, 0, nil,
+                                       UInt32(MemoryLayout<AudioDeviceID>.size), ptr)
+        }
+    }
+
     /// Total channels reported by the device's stream configuration for a scope.
     static func channelCount(device id: AudioDeviceID, scope: AudioObjectPropertyScope) -> Int? {
         guard let data = getPropertyData(

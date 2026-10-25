@@ -34,8 +34,22 @@ func present(result: SetSampleRate.Result) {
     ])
 }
 
+func present(result: SetDefaultOutput.Result) {
+    writeJSON([
+        "ok": true,
+        "scope": "output",
+        "changed": result.changed,
+        "before": outputDeviceSummary(result.before),
+        "after": outputDeviceSummary(result.after),
+    ])
+}
+
 func deviceSummary(_ device: AudioDevice) -> [String: Any] {
     ["name": device.name, "uid": device.uid]
+}
+
+func outputDeviceSummary(_ device: AudioDevice) -> [String: Any] {
+    ["id": NSNumber(value: device.id), "name": device.name, "uid": device.uid]
 }
 
 func formatJSON(_ format: StreamFormat?) -> [String: Any]? {
@@ -51,6 +65,7 @@ func formatJSON(_ format: StreamFormat?) -> [String: Any]? {
 
 func deviceJSON(_ device: AudioDevice) -> [String: Any] {
     var json: [String: Any] = [
+        "id": NSNumber(value: device.id),
         "name": device.name,
         "uid": device.uid,
         "defaultOutput": device.isDefaultOutput,

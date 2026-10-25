@@ -49,6 +49,20 @@ struct CoreAudioDeviceRepository: AudioDeviceRepository {
         return .notSwitched(current: CoreAudioClient.nominalSampleRate(device.id))
     }
 
+    func setDefaultOutput(_ device: AudioDevice) -> SetDefaultOutputOutcome {
+        let status = CoreAudioClient.setDefaultOutputDeviceID(device.id)
+        logger.log("AudioObjectSetPropertyData default output status: \(status)")
+        guard status == noErr else { return .setStatusFailed(status: status) }
+
+        for attempt in 0..<10 {
+            let current = CoreAudioClient.defaultOutputDeviceID()
+            logger.log("default output verify attempt \(attempt + 1): current id \(current.map(String.init) ?? "?")")
+            if current == device.id { return .applied }
+            if attempt < 9 { usleep(50_000) }
+        }
+        return .notSwitched(current: CoreAudioClient.defaultOutputDeviceID())
+    }
+
     /// Build a domain snapshot of the device's live properties.
     private func snapshot(_ id: AudioDeviceID) -> AudioDevice {
         var formats: [AudioScope: StreamFormat] = [:]

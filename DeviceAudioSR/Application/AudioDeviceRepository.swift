@@ -12,6 +12,12 @@ enum SetSampleRateOutcome {
     case notSwitched(current: Double?)
 }
 
+enum SetDefaultOutputOutcome {
+    case applied
+    case setStatusFailed(status: Int32)
+    case notSwitched(current: UInt32?)
+}
+
 protocol AudioDeviceRepository {
     /// All devices in system order, each with its live format snapshot.
     func allDevices() -> [AudioDevice]
@@ -24,4 +30,6 @@ protocol AudioDeviceRepository {
 
     /// Set the nominal sample rate and verify it took effect.
     func setNominalSampleRate(_ rate: Double, on device: AudioDevice) -> SetSampleRateOutcome
+
+    func setDefaultOutput(_ device: AudioDevice) -> SetDefaultOutputOutcome
 }

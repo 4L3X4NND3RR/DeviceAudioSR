@@ -5,7 +5,8 @@
 //  CLI to change (and inspect) the nominal sample rate of a CoreAudio device.
 //
 //  Usage:
-//    deviceaudiosr <rate> [-d <name|uid>] [-i] [--verbose]
+//    deviceaudiosr <rate> [-d <name|uid|id>] [-i] [--verbose]
+//    deviceaudiosr --output <name|uid|id>
 //    deviceaudiosr --list
 //    deviceaudiosr --help | --version
 //
@@ -22,12 +23,29 @@ import Foundation
 
 let cliOptions = parseArguments(Array(CommandLine.arguments.dropFirst()))
 
+if cliOptions.outputQuery != nil && (cliOptions.rateArg != nil || cliOptions.deviceQuery != nil || cliOptions.preferInput) {
+    present(error: AppError(id: .usageError,
+                            message: "--output cannot be combined with a rate, --device, or --input",
+                            exitCode: .usageError))
+}
+
 let logger: Logger = cliOptions.verbose ? StderrLogger() : NullLogger()
 let repository = CoreAudioDeviceRepository(logger: logger)
 
 if cliOptions.wantList {
     do {
         present(devices: try ListDevices(repository: repository).execute())
+    } catch let error as AppError {
+        present(error: error)
+    }
+    exit(ExitCode.success.rawValue)
+}
+
+if let outputQuery = cliOptions.outputQuery {
+    do {
+        let result = try SetDefaultOutput(repository: repository, logger: logger)
+            .execute(.init(deviceQuery: outputQuery))
+        present(result: result)
     } catch let error as AppError {
         present(error: error)
     }

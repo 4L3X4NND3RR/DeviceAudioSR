@@ -8,12 +8,13 @@ import Foundation
 struct CLIOptions {
     var rateArg: String?
     var deviceQuery: String?
+    var outputQuery: String?
     var wantList = false
     var preferInput = false
     var verbose = false
 
     var isEmptyRun: Bool {
-        rateArg == nil && deviceQuery == nil && !wantList && !preferInput
+        rateArg == nil && deviceQuery == nil && outputQuery == nil && !wantList && !preferInput
     }
 }
 
@@ -56,6 +57,13 @@ func parseArguments(_ arguments: [String]) -> CLIOptions {
                                         exitCode: .usageError))
             }
             options.deviceQuery = value
+        case "--output":
+            guard let value = iterator.next(), !knownFlags.contains(value) else {
+                present(error: AppError(id: .usageError,
+                                        message: "missing value for \(arg)",
+                                        exitCode: .usageError))
+            }
+            options.outputQuery = value
         default:
             if arg.hasPrefix("-"), arg != "-" {
                 let suggestions = suggestFlags(for: arg)
