@@ -1,0 +1,19 @@
+// swift-tools-version: 6.0
+import PackageDescription
+
+let package = Package(
+    name: "DeviceAudioSR",
+    platforms: [
+        // Minor versions like 15.6 have no `.vXX` constant; string spelling.
+        .macOS("15.6"),
+    ],
+    targets: [
+        // Sources are the same folder the Xcode target compiles:
+        // main.swift + Domain/ Application/ Infrastructure/ Presentation/.
+        // SwiftPM includes all .swift files under the path recursively.
+        .executableTarget(
+            name: "DeviceAudioSR",
+            path: "DeviceAudioSR"
+        ),
+    ]
+)
